@@ -23,6 +23,7 @@
     model.fit(xs, ys, {epochs: 10}).then(() => {
       // Use the model to make a prediction
       const test = tf.randomNormal([1, ...inputShape]); // 1 sample
+	  test.print();
       const pred = model.predict(test);
       pred.print(); // Print the output tensor
     });
