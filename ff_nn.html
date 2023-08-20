@@ -1,0 +1,31 @@
+<html>
+<head>
+  <!-- Load TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+</head>
+<body>
+  <script>
+    // Define the input shape and dimension
+    const inputShape = [784]; // 28 x 28 pixels
+    const inputDim = inputShape[0];
+
+    // Define the model architecture
+    const model = tf.sequential();
+    model.add(tf.layers.dense({units: 128, activation: 'relu', inputShape}));
+    model.add(tf.layers.dense({units: 10, activation: 'softmax'}));
+
+    // Compile the model
+    model.compile({loss: tf.losses.meanSquaredError, optimizer: 'adam'});
+
+    // Train the model with some dummy data
+    const xs = tf.randomNormal([32, ...inputShape]); // 32 samples
+    const ys = tf.randomUniform([32, 10], 0, 2, 'int32'); // 32 labels
+    model.fit(xs, ys, {epochs: 10}).then(() => {
+      // Use the model to make a prediction
+      const test = tf.randomNormal([1, ...inputShape]); // 1 sample
+      const pred = model.predict(test);
+      pred.print(); // Print the output tensor
+    });
+  </script>
+</body>
+</html>
